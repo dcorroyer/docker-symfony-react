@@ -1,2 +1,9 @@
+
+### Database files
 .dbdata
+
+### Vagrant files
 .vagrant
+
+### Mac OS files
+.DS_Store
