@@ -1,0 +1,56 @@
+version: '3.7'
+
+services:
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: db
+      DB_DATABASE: mycms
+      DB_USERNAME: root
+      DB_PASSWORD: secret
+      MAIL_DRIVER: smtp
+      MAIL_HOST: docker.for.mac.localhost
+      MAIL_PORT: 1025
+    ports:
+      - 8000:8000
+      - 1025:1025
+    volumes:
+      - ./backend:/app/backend
+    depends_on:
+      - db
+    networks:
+      - app
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    tty: true
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/app/frontend
+    depends_on:
+      - backend
+    networks:
+      - app
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: mycms
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_PASSWORD: secret
+    volumes:
+      - .dbdata:/var/lib/mysql/
+    networks:
+      - app
+
+networks:
+
+  app:
+    driver: bridge
