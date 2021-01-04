@@ -4,6 +4,7 @@
 
 ### Vagrant files
 .vagrant
+Vagrantfile
 
 ### Mac OS files
 .DS_Store
